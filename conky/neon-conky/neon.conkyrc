@@ -1,0 +1,165 @@
+
+
+--[[  Testing LUA with Conky!!!!! LEARNING WOOOooooOOOOooOOooOOOooo!!!!!! ]]
+
+conky.config = {
+
+	--Various settings
+
+	background = true, 							-- forked to background
+	cpu_avg_samples = 2,						-- The number of samples to average for CPU monitoring.
+	diskio_avg_samples = 10,					-- The number of samples to average for disk I/O monitoring.
+	double_buffer = true,						-- Use the Xdbe extension? (eliminates flicker)
+	if_up_strictness = 'address',				-- how strict if testing interface is up - up, link or address
+	net_avg_samples = 2,						-- The number of samples to average for net data
+	no_buffers = true,							-- Subtract (file system) buffers from used memory?
+	temperature_unit = 'celsius',				-- fahrenheit or celsius
+	text_buffer_size = 2048,					-- size of buffer for display of content of large variables - default 256
+	update_interval = 1,						-- update interval
+	imlib_cache_size = 0,                      -- disable image cache to get a new spotify cover per song
+
+
+	--Placement
+
+	alignment = 'middle_right',						-- top_left,top_middle,top_right,bottom_left,bottom_middle,bottom_right,
+												-- middle_left,middle_middle,middle_right,none
+	--Arch Duoscreen
+	--gap_x = -1910,
+	gap_x = -455,									-- pixels between right or left border
+	gap_y = 0,									-- pixels between bottom or left border
+	minimum_height = 600,						-- minimum height of window
+	minimum_width = 370,						-- minimum height of window
+	--maximum_width = 600,						-- maximum height of window
+
+	--Graphical
+
+	border_inner_margin = 10, 					-- margin between border and text
+	border_outer_margin = 5, 					-- margin between border and edge of window
+	border_width = 0, 							-- border width in pixels
+	default_bar_width = 100,					-- default is 0 - full width
+	default_bar_height = 12,					-- default is 6
+	default_gauge_height = 25,					-- default is 25
+	default_gauge_width =40,					-- default is 40
+	default_graph_height = 50,					-- default is 25
+	default_graph_width = 0,					-- default is 0 - full width
+	default_shade_color = '#000000',			-- default shading colour
+	default_outline_color = '#000000',			-- default outline colour
+	draw_borders = false,						-- draw borders around text
+	draw_graph_borders = true,					-- draw borders around graphs
+	draw_shades = false,						-- draw shades
+	draw_outline = false,						-- draw outline
+	stippled_borders = 0,						-- dashing the border
+
+	--Textual
+
+	extra_newline = false,						-- extra newline at the end - for awesomes wiboxes
+	format_human_readable = true,				-- KiB, MiB rather then number of bytes
+	font = 'Roboto Mono:size=10',  				-- font for complete conky unless in code defined
+	max_text_width = 0,							-- 0 will make sure line does not get broken if width too smal
+	max_user_text = 16384,						-- max text in conky default 16384
+	override_utf8_locale = true,				-- force UTF8 requires xft
+	short_units = true,							-- shorten units from KiB to k
+	top_name_width = 21,						-- width for $top name value default 15
+	top_name_verbose = false,					-- If true, top name shows the full command line of  each  process - Default value is false.
+	uppercase = false,							-- uppercase or not
+	use_spacer = 'none',						-- adds spaces around certain objects to align - default none
+	use_xft = true,							-- xft font - anti-aliased font
+	xftalpha = 1,								-- alpha of the xft font - between 0-1
+
+	--Windows
+
+	own_window = true,							-- create your own window to draw
+	own_window_argb_value = 200,			    -- real transparency - composite manager required 0-255
+	own_window_argb_visual = true,				-- use ARGB - composite manager required
+	own_window_class = 'Conky',					-- manually set the WM_CLASS name for use with xprop
+	own_window_colour = '#000000',				-- set colour if own_window_transparent no
+	own_window_hints = 'undecorated,below,above,sticky,skip_taskbar,skip_pager',  -- if own_window true - just hints - own_window_type sets it
+	own_window_transparent = false,				-- if own_window_argb_visual is true sets background opacity 0%
+	own_window_title = 'system_conky',			-- set the name manually  - default conky "hostname"
+	own_window_type = 'desktop',				-- if own_window true options are: normal/override/dock/desktop/panel
+
+
+	--Colours
+
+	color1    = '#85acfb', --blue
+	color2    = '#9c64b1', --purple
+	color3    = '#9c64b1', --purple light
+
+	--Lua
+lua_load = '~/.config/conky/neon-conky/lua/neon-bars.lua',
+lua_draw_hook_pre = 'conky_main',
+
+
+
+};
+
+
+
+
+conky.text = [[
+${voffset 125}
+
+${color2}${hr 3}
+${color1}${font Terminus:size=14}${voffset 8}Hostname:${color3}${font Terminus:size=12}${alignr}${USER}
+${color1}${font Terminus:size=14}Distro:${color3}${font Terminus:size=12}${alignr}${execi 86400 lsb_release -si}
+${color1}${font Terminus:size=14}WM:${font Terminus:size=12}${color3}${alignr}${DESKTOP_SESSION}
+${color1}${font Terminus:size=14}Kernel:${font Terminus:size=12}${color3}${alignr}${exec uname} ${execi 86400 uname -r}
+${color1}${font Terminus:size=14}Shell:${font Terminus:size=12}${color3}${alignr}${SHELL}
+${color1}${font Terminus:size=14}Uptime:${color3}${font Terminus:size=11}${alignr}${uptime}
+
+#${color1}${font Terminus:size=14}Nvidia Driver: ${color3}${font Terminus:size=11}${alignr}${execi 60000 nvidia-smi | grep "Driver Version"| awk {'print $3'}}
+#${color1}${font Terminus:size=14}Nvidia: ${color3}${font Terminus:size=11}${alignr}${execi 60000 nvidia-smi -q --id=00000000:01:00.0 | grep "Product Name" | awk {'print $5" "$6" "$7'}}
+#${color1}${font Roboto:size=12}Nvidia: ${color3} GPU 1: ${alignr}${font Roboto:size=11}${execi 60000 nvidia-smi -q --id=00000000:0B:00.0 | grep "Product Name" | awk {'print $5" "$6" "$7'}}
+#${color1}${font Terminus:size=14}Uptime:${color3}${font Terminus:size=11}${alignr}${uptime}
+${color2}${hr 3}
+
+${color1}${font Terminus:size=14}CPU:${color3}${font Terminus:size=11}${alignr}${execi 60000 lscpu | grep 'Model name:' | awk ' {gsub("12-Core Processor","",$3);print $3" "$4" "$5" "$6}'}
+${color1}${font Terminus:size=14}Freq:${color3}${font Terminus:size=11}${alignr}${freq} MHz
+${color1}${font Terminus:size=14}Temp:${color3}${font Terminus:size=11}${alignr}${exec sensors | grep 'Tctl'| awk ' {gsub(/\+/,"",$2);gsub(/\../,"",$3); print $2} ' }
+${color1}${font Terminus:size=14}Usage:${color3}${font Terminus:size=11}${alignr}${cpu} %
+
+${color1}${font Terminus:size=14}Cores:
+
+${voffset 80}
+
+
+
+
+${color1}${font Terminus:size=14}RAM: ${font Terminus:size=11}${color3}${alignr}${offset -10}${mem} / ${memmax}
+${voffset 30}
+
+${color2}${hr 3}
+
+${color1}${font Terminus:size=14}Nvidia: ${color3}${font Terminus:size=11}${alignr}${execi 60000 nvidia-smi -q --id=00000000:01:00.0 | grep "Product Name" | awk {'print $5" "$6" "$7'}}
+${color1}${font Terminus:size=14}Driver: ${color3}${font Terminus:size=11}${alignr}${execi 60000 nvidia-smi | grep "Driver Version"| awk {'print $3'}}
+${color1}${font Terminus:size=14}Freq: ${color3}${font Terminus:size=11}${alignr}${exec nvidia-settings -q gpucurrentclockfreqs -t | awk -F ',' NR==1'{print $1}'} Mhz
+${color1}${font Terminus:size=14}Temp: ${color3}${alignr}${font Terminus:size=11}${exec nvidia-settings -q gpucoretemp -t}°C
+${color1}${font Terminus:size=14}Gpu: ${color3}${font Terminus:size=11}${alignr}${exec nvidia-settings -q gpuutilization -t | awk '{gsub(/[a-zA-Z,=%]/,"");print $1}'} %
+
+${color1}${font Terminus:size=14}Vram: ${color3}${font Terminus:size=11}${alignr}${exec nvidia-settings -q gpuutilization -t | awk '{gsub(/[a-zA-Z,=%]/,"");print $2}'} %
+#${color1}${font Terminus:size=14}Vram Freq: ${color3}${font Terminus:size=11}${alignr}${exec nvidia-settings -q gpucurrentclockfreqs -t | awk -F ',' NR==1 'print $0'} Mhz
+
+${color2}${hr 3}
+
+
+${color1}${font Terminus:size=14}Top Processes${goto 275}cpu%${offset 57}mem%${color3}${font Terminus:size=11}
+     1  -  ${top name 1}${goto 275}${top cpu 1} ${offset 40}${top mem 1}
+     2  -  ${top name 2}${goto 275}${top cpu 2} ${offset 40}${top mem 2}
+     3  -  ${top name 3}${goto 275}${top cpu 3} ${offset 40}${top mem 3}
+     4  -  ${top name 4}${goto 275}${top cpu 4} ${offset 40}${top mem 4}
+     5  -  ${top name 5}${goto 275}${top cpu 5} ${offset 40}${top mem 5}
+     6  -  ${top name 6}${goto 275}${top cpu 6} ${offset 40}${top mem 6}
+     7  -  ${top name 7}${goto 275}${top cpu 7} ${offset 40}${top mem 7}
+     8  -  ${top name 8}${goto 275}${top cpu 8} ${offset 40}${top mem 8}
+     9  -  ${top name 9}${goto 275}${top cpu 9} ${offset 40}${top mem 9}
+    10  -  ${top name 10}${goto 275}${top cpu 10} ${offset 40}${top mem 10}
+
+#${color2}${font Roboto:size=12}N E T W O R K   ${hr 2}${font}${color}
+
+#${color4}${font StyleBats:size=20}q${font}${color}${offset 8}${voffset -12}
+${color1}${font Terminus:size=14}Ethernet:
+${color3}${offset 30}${font Terminus:size=11}Up: ${alignr}${offset -10$}${upspeed eno1}${alignr}${voffset 2}${upspeedgraph eno1 12,100}
+${color3}${offset 30}${font Terminus:size=11}Down: ${alignr}${offset -10$}${downspeed eno1}${alignr}${voffset 2}${downspeedgraph eno1 12,100}
+
+
+]];
